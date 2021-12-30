@@ -1,5 +1,7 @@
 package studio.thamessia;
 
+import sun.misc.Signal;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
@@ -14,6 +16,11 @@ public class Main {
         ProxyGenerator proxyChecker = new ProxyGenerator();
 
         for (;;) {
+            Signal.handle(new Signal("INT"), sig -> {
+                System.out.println("Goodbye and thanks for using BariVPN!");
+                System.exit(0);
+            });
+
             InetSocketAddress inetSocketAddress = new InetSocketAddress("www.google.com", 80);
             Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyChecker.generateProxy(), new Random().nextInt(65535)));
 
@@ -50,6 +57,8 @@ public class Main {
                 System.out.println(stringBuilder);
                 System.exit(0);
             }
+
+
         }
     }
 
